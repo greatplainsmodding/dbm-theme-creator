@@ -1,0 +1,36 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DBM Theme Creator</title>
+</head>
+
+<body>
+    <center>
+        <b>
+            <p style="font-size: 40px; font-weight: 500;">DBM Theme Creator</p>
+        </b>
+        <div style="height: 100px;"></div>
+        <form>
+            <button id="openProject" value="openProject" onclick="">Open Project</button>
+            <button id="newProject" onclick="createProject()" value="newProject" type="submit">New Project</button>
+        </form>
+    </center>
+    <script>
+        const electron = require('electron');
+        const {
+            ipcRenderer
+        } = electron;
+
+        const form = document.querySelector('#newProject');
+        form.addEventListener('submit', createProject)
+
+        function createProject() {
+            const data = 'ya!'
+            ipcRenderer.send('createProjectWindow');
+        }
+    </script>
+</body>
+
+</html>

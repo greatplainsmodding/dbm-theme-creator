@@ -1,0 +1,16 @@
+{
+    "themeName": "test",
+    "themeAuthor": "test",
+    "projectTemplate": "Default",
+    "themeDescription": "This is a test theme made with DBM Theme Creator.",
+    "backgroundType": "color",
+    "backgroundIMGColor": "36393e",
+    "navTextColor": "ccc",
+    "navBackgroundColor": "4676b9",
+    "sidePanelText": "ccc",
+    "sidePanelBackground": "",
+    "actionSectionText": "ccc",
+    "actionSectionBackground": "",
+    "actionPanelText": "ccc",
+    "actionPaneBackground": ""
+}
