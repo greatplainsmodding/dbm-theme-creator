@@ -2,40 +2,39 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Discord Bot Maker</title>
+		<title>Discord Bot Maker - Theme Creator</title>
 	</head>
-	<body onkeydown="DBM.deleteSelection(event)" style="width: 100%; height: 100%;">
+	<body style="width: 100%; height: 100%;">
 		<link rel="stylesheet" type="text/css" href="../css/main.css">
 		<link rel="stylesheet" type="text/css" href="../css/semantic/dist/semantic.css">
-		<input style="display:none;" id="fileSave" type="file" nwsaveas="DiscordBot.zip" onchange="DBM.onExportSaved(this)" />
-		<input style="display:none;" id="fileDialog" type="file" accept=".discordbot" onchange="DBM.onProjectChange(this)" />
+		<div style="height: 10px;"></div>
 		<div style="text-align: center; padding-top: 10px;" id="id_tabs_main">
 			<div class="ui blue buttons" style="width: 95%;" id="id_tabs">
-				<button id="a_tab_com" class="ui button active" style="width: 25%;" onclick="DBM.shiftTabs(event, 'Commands', 0)">Commands</button>
-				<button id="a_tab_eve" class="ui button" style="width: 25%;" onclick="DBM.shiftTabs(event, 'Events', 1)">Events</button>
-				<button id="a_tab_sets" class="ui button" style="width: 25%;" onclick="DBM.shiftTabs(event, 'Settings', 2)">Settings</button>
+				<button id="a_tab_com" class="ui button active" style="width: 25%;" >Commands</button>
+				<button id="a_tab_eve" class="ui button" style="width: 25%;" >Events</button>
+				<button id="a_tab_sets" class="ui button" style="width: 25%;">Settings</button>
 			</div>
 		</div>
 		<!--<div style="text-align: left; display: inline-block; height: 100%; width: 100%; display: flex; align-items: center; justify-content: left;">-->
 		<div id="id_pages" style="padding: 12px 20px; width: 100%; height: 100%;">
-			<div id="Commands" style="display: block;" class="page">
+			<div " style="display: block;" class="page">
 				<div class="action-holder">
-					<button class="tiny ui labeled icon button" style="width: 200px;" onclick="DBM.onCreateCommand()"><i class="plus icon"></i><span id="createnewbutton">Create New Command</span></button>
+					<button class="tiny ui labeled icon button" style="width: 200px;" ><i class="plus icon"></i><span id="createnewbutton">Create New Command</span></button>
 					<br><br>
-					<div class="myactions" id="myactions" style="width: 200px; height: 381px;">
+					<div class="myactions" style="width: 200px; height: 480px;">
 					</div>
 				</div>
-				<div id="command-content" style="margin-left: 250px; display: none;">
+				<div id="command-content" style="margin-left: 250px; ">
 					<br>
 					<div>
 						<div style="float: left; width: 55%;">
 							<span id="comLabel">Command Name:</span><br>
-							<input id="name" style="width: 100%; height: 38px;" onkeydown="DBM.preventSpace(event)" onkeyup="DBM.tempSaveData('name')" type="text">
+							<input id="name" style="width: 100%; height: 38px;" type="text">
 						</div>
 						<div style="float: right; width: 40%;">
 							<span id="commandtype">Command Type:</span><br>
 							<div style="width: 100%;">
-								<select class="ui fluid dropdown" id="comType" onchange="DBM.tempSaveData('comType')">
+								<select class="ui fluid dropdown" id="comType" >
 									<option value="0" id="normalcommand">Normal Command</option>
 									<option value="1" id="includesword">Includes Word</option>
 									<option value="2" id="matchesregularexpression">Matches Regular Expression</option>
@@ -47,7 +46,7 @@
 					<br><br><br><br>
 					<span id="comRestriction">Command Restriction:</span><br>
 					<div style="width: 100%;">
-						<select class="ui fluid dropdown" id="restriction" onchange="DBM.tempSaveData('restriction')">
+						<select class="ui fluid dropdown" id="restriction">
 							<option value="0" id="commandrestrict_none">None</option>
 							<option value="1" id="commandrestrict_server">Server Only</option>
 							<option value="2" id="commandrestrict_owner">Owner Only</option>
@@ -56,7 +55,7 @@
 					</div>
 					<br>
 					<span id="userrequiredpermission">User Required Permission:</span><br>
-					<select class="ui fluid dropdown" id="permissions" style="width: 100%;" onchange="DBM.tempSaveData('permissions')">
+					<select class="ui fluid dropdown" id="permissions" style="width: 100%;">
 						<option value="NONE" id="userreq_none">None</option>
 						<option value="ADMINISTRATOR" id="userreq_admin">Administrator</option>
 						<option value="CREATE_INSTANT_INVITE" id="userreq_createinstant">Create Instant Invite</option>
@@ -91,12 +90,13 @@
 					<div class="footer">
 						<div class="infooter">
 							<div style="float: right; padding-bottom: 5px;">
-								<button class="tiny compact ui labeled icon button" onclick="DBM.addAction()"><i class="plus icon"></i><span id="com_create">Create</span></button>
-								<button class="tiny compact ui labeled icon button" onclick="DBM.editAction()"><i class="legal icon"></i><span id="com_edit">Edit</span></button>
-								<button class="tiny compact ui labeled icon button" onclick="DBM.deleteAction()"><i class="remove icon"></i><span id="com_delete">Delete</span></button>
+								<button class="tiny compact ui labeled icon button" ><i class="plus icon"></i><span id="com_create">Create</span></button>
+								<button class="tiny compact ui labeled icon button" ><i class="legal icon"></i><span id="com_edit">Edit</span></button>
+								<button class="tiny compact ui labeled icon button"><i class="remove icon"></i><span id="com_delete">Delete</span></button>
 							</div>
 							<span id="com_actions">Actions:</span>
 							<div class="myactions" id="actions" style="width: 100%;">
+								<div  style="height: 200px;"></div>
 							</div>
 						</div>
 					</div>
@@ -104,7 +104,7 @@
 			</div>
 			<div id="Events" class="page">
 				<div class="event-action-holder">
-					<button class="tiny ui labeled icon button" style="width: 200px;" onclick="DBM.eonCreateCommand()"><i class="plus icon"></i><span id="createnewevent">Create New Event</span></button>
+					<button class="tiny ui labeled icon button" style="width: 200px;" ><i class="plus icon"></i><span id="createnewevent">Create New Event</span></button>
 					<br><br>
 					<div class="emyactions" id="emyactions" style="width: 200px; height: 381px;">
 					</div>
@@ -112,10 +112,10 @@
 				<div id="event-command-content" style="margin-left: 250px; display: none;">
 					<br>
 					<span id="eventname">Event Name:</span><br>
-					<input id="ename" style="width: 100%; height: 38px;" onkeyup="DBM.etempSaveData('ename')" type="text">
+					<input id="ename" style="width: 100%; height: 38px;" >
 					<br>
 					<span id="eventtrigger">Event Trigger:</span><br>
-					<select class="ui fluid dropdown" id="event-type" style="width: 100%;" onchange="DBM.etempSaveData('event-type')">
+					<select class="ui fluid dropdown" id="event-type" style="width: 100%;">
 						<option value="0" id="eventrig_none">None</option>
 						<option value="1" id="eventrig_botinit">Bot Initialization</option>
 						<option value="2" id="eventrig_anymsgsent">Any Message Sent (Deprecated: Use "Any Message" command type)</option>
@@ -164,19 +164,19 @@
 					<br>
 					<div id="tempVarStore">
 						<span id="tempLabel"></span>
-						<input id="etemp" style="width: 100%;" onchange="DBM.etempSaveData('etemp')" type="text">
+						<input id="etemp" style="width: 100%;" type="text">
 					</div>
 					<br>
 					<div id="tempVarStore2" style="position: absolute;">
 						<span id="tempLabel2"></span>
-						<input id="etemp2" style="width: 100%;" onchange="DBM.etempSaveData('etemp2')" type="text">
+						<input id="etemp2" style="width: 100%;" type="text">
 					</div>
 					<div class="footer">
 						<div class="einfooter">
 							<div style="float: right; padding-bottom: 5px;">
-								<button class="tiny compact ui labeled icon button" onclick="DBM.eaddAction()"><i class="plus icon"></i><span id="eve_create">Create</span></button>
-								<button class="tiny compact ui labeled icon button" onclick="DBM.eeditAction()"><i class="legal icon"></i><span id="eve_edit">Edit</span></button>
-								<button class="tiny compact ui labeled icon button" onclick="DBM.edeleteAction()"><i class="remove icon"></i><span id="eve_delete">Delete</span></button>
+								<button class="tiny compact ui labeled icon button"><i class="plus icon"></i><span id="eve_create">Create</span></button>
+								<button class="tiny compact ui labeled icon button"><i class="legal icon"></i><span id="eve_edit">Edit</span></button>
+								<button class="tiny compact ui labeled icon button"><i class="remove icon"></i><span id="eve_delete">Delete</span></button>
 							</div>
 							<span id="eve_actions">Actions:</span>
 							<div class="emyactions" id="event-actions" style="width: 100%;">
@@ -193,15 +193,15 @@
 				<div style="width: 85%; display: table;">
 					<div style="display: table-cell; padding-right: 5%;">
 						<span id="commandtag">Command Tag:</span><br>
-						<input class="settings" type="text" id="settings-tag" onchange="DBM.onSettingsChange('tag')" onkeyup="DBM.onSettingsChange('tag')">
+						<input class="settings" type="text" id="settings-tag">
 					</div>
 					<div style="display: table-cell; padding-right: 5%;">
 						<span id="parameterseparator">Parameter Separator:</span><br>
-						<input class="settings" type="text" id="settings-separator" onchange="DBM.onSettingsChange('separator')" onkeyup="DBM.onSettingsChange('separator')">
+						<input class="settings" type="text" id="settings-separator">
 					</div>
 					<div style="display: table-cell;">
 						<span id="commandcasesensitive">Command Case Sensitive:</span><br>
-						<select class="settings round" id="settings-case" onchange="DBM.onSettingsChange('case')">
+						<select class="settings round" id="settings-case">
 							<option value="true" id="commandcasesentitiveyes">Yes</option>
 							<option value="false" id="commandcasesentitiveno">No</option>
 						</select>
@@ -211,22 +211,22 @@
 				<div style="width: 85%; display: table;">
 					<div style="display: table-cell; padding-right: 5%;">
 						<span id="botownderid">Bot Owner ID:</span><br>
-						<input class="settings" type="text" id="settings-ownerId" onchange="DBM.onSettingsChange('ownerId')" onkeyup="DBM.onSettingsChange('ownerId')">
+						<input class="settings" type="text" id="settings-ownerId">
 					</div>
 					<div style="display: table-cell;">
 						<span id="encryptionpass">Encryption Password:</span><br>
-						<input class="settings" type="text" id="settings-encrypt" onchange="DBM.onEncryptChange(this)" onkeyup="DBM.onEncryptChange(this)" placeholder="Leave blank to disallow...">
+						<input class="settings" type="text" id="settings-encrypt"placeholder="Leave blank to disallow...">
 					</div>
 				</div>
 				<br>
 				<span id="bottoken">Bot Token:</span><br>
 				<div style="float:left; width: 85%;">
-					<input class="settings" type="password" autocomplete="new-password" id="settings-token" onchange="DBM.onSettingsChange('token')" onkeyup="DBM.onSettingsChange('token')">
+					<input class="settings" type="password" autocomplete="new-password" id="settings-token">
 				</div>
-				<div style="float:left; padding-left: 20px;"><button class="tiny compact ui icon button" onclick="DBM.toggleHidden(this, 'settings-token')" style="width: 50px;" id="showbutton">Show</button></div>
+				<div style="float:left; padding-left: 20px;"><button class="tiny compact ui icon button" style="width: 50px;" id="showbutton">Show</button></div>
 				<br><br>
 				<div style="padding-top: 6px;"><span id="clientid">Client ID:</span></div>
-				<input class="settings" style="width: 85%;" type="text" id="settings-client" onchange="DBM.onSettingsChange('client')" onkeyup="DBM.onSettingsChange('client')" maxlength="18"><br>
+				<input class="settings" style="width: 85%;" type="text" id="settings-client" maxlength="18"><br>
 				<p id="bot-links">
 				</p>
 			</div>
@@ -242,11 +242,11 @@
 				<br><br><br><br><br><br><br>
 				<font size="7"><span id="noprojectopen">No Project Open</span></font><br>
 				<br><br>
-				<button class="ui labeled icon button" onclick="DBM.createNewProject()">
+				<button class="ui labeled icon button">
 					<i class="left file icon"></i>
 					<span id="createnewbotproject">Create New Bot Project</span>
 				</button>
-				<button class="ui right labeled icon button" onclick="DBM.openProject()">
+				<button class="ui right labeled icon button">
 					<span id="openexistingbotproject">Open Existing Bot Project</span>
 					<i class="right folder open icon"></i>
 				</button>
@@ -258,15 +258,15 @@
 				<span id="savebeforeclosing">Would you like to save before closing?</span>
 			</div>
 			<div style="text-align: center; padding-bottom: 5%;">
-				<button class="tiny compact ui labeled icon button" onclick="DBM.saveAndClose()">
+				<button class="tiny compact ui labeled icon button">
 					<i class="checkmark icon"></i>
 					<span id="savebutton">Save</span>
 				</button>
-				<button class="tiny compact ui labeled icon button" style="margin-left: 20px;" onclick="DBM.noSaveAndClose()">
+				<button class="tiny compact ui labeled icon button" style="margin-left: 20px;" >
 					<i class="remove icon"></i>
 					<span id="dontsavebutton">Don't Save</span>
 				</button>
-				<button class="tiny compact ui labeled icon button" style="margin-left: 20px;" onclick="DBM.cancelModal()">
+				<button class="tiny compact ui labeled icon button" style="margin-left: 20px;" >
 					<i class="minus icon"></i>
 					<span id="cancelbutton">Cancel</span>
 				</button>
@@ -282,7 +282,7 @@
 			</div>
 			<div>
 				<div style="width: 85%; margin-left: 45px; margin-top: 15px;" class="ui icon input">
-					<input style="height: 38px;" id="alias-input" type="text" placeholder="Add alias..." onkeydown="DBM.preventSpace(event)">
+					<input style="height: 38px;" id="alias-input" type="text" placeholder="Add alias...">
 					<i class="inverted circular plus link icon" onclick="DBM.addAlias()"></i>
 				</div>
 			</div>
@@ -292,12 +292,12 @@
 			<div style="margin: 20px 20px 20px 20px">
 				<div style="float: left; width: 45%;">
 					<span id="amountoftime">Amount of Time:</span><br>
-					<input class="round" style="height: 38px; margin-top: 5px;" id="cooldown-input" onkeyup="DBM.cooldownTypeUpdate()" type="text">
+					<input class="round" style="height: 38px; margin-top: 5px;" id="cooldown-input" type="text">
 				</div>
 				<div style="float: right; width: 45%;">
 					<span id="timemeasurement">Time Measurement:</span><br>
 					<div style="margin-top: 5px;">
-						<select class="ui fluid dropdown" id="select-cooldown" style="width: 100%;" onchange="DBM.cooldownTypeUpdate()">
+						<select class="ui fluid dropdown" id="select-cooldown" style="width: 100%;">
 							<option value="0" id="norestriction">No Restriction</option>
 							<option value="1" id="seconds">Seconds</option>
 							<option value="2" id="minutes">Minutes</option>
@@ -330,35 +330,14 @@
 			</div>
 			<div>
 				<div style="width: 85%; margin-left: 45px; margin-top: 15px;" class="ui icon input">
-					<input style="height: 38px;" id="mm-input" type="text" placeholder="Add module..." onkeydown="DBM.preventSpace(event)">
-					<i class="inverted circular plus link icon" onclick="DBM.addModule()"></i>
+					<input style="height: 38px;" id="mm-input" type="text" placeholder="Add module...">
+					<i class="inverted circular plus link icon"></i>
 				</div>
 			</div>
 		</div>
 	<!--</div>-->
-		<link rel="stylesheet" type="text/css" id="maintheme" href="themes/Default/main.css">
-		<script>
-			if(typeof module === 'object') {
-				window.module = module;
-				module = undefined;
-			}
-		</script>
-		<script type="text/javascript" src="jquery/jquery.min.js"></script>
-		<script type="text/javascript" src="jquery/jquery.blockUI.js"></script>
-		<script>
-			nw.Window.get().evalNWBin(null, 'Application.bin');
-		</script>
-		<script src="semantic/dist/semantic.min.js"></script>
-		<script>
-			if(window.module) module = window.module;
-
-			jQuery(document).ready(function() {
-				jQuery('#comType').dropdown();
-				jQuery('#permissions').dropdown();
-				jQuery('#restriction').dropdown();
-				jQuery('#event-type').dropdown();
-				jQuery('#select-cooldown').dropdown();
-			});
-		</script>
+		<link rel="stylesheet" type="text/css" id="maintheme" href="../css/main.css">
+		<script type="text/javascript" src="../jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../jquery/jquery.blockUI.js"></script>
 	</body>
 </html>

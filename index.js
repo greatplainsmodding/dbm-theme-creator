@@ -1,21 +1,26 @@
 const electron = require('electron');
+const ejs = require('ejs-electron')
 const url = require('url');
 const path = require('path');
 const fs = require('fs');
 
-const {
-    app,
-    BrowserWindow,
-    Menu,
-    ipcMain,
-    dialog
-} = electron;
+const { app, BrowserWindow, Menu, ipcMain, dialog } = electron;
 
 let mainWindow;
 let newProject;
+let displayWindow;
+
+let extensions = new Map()
+
+fs.readdirSync(path.join(__dirname, "extensions")).forEach(dir => {
+    const extensionFiles = fs.readdirSync(path.join(__dirname, "extensions")).filter(file => file.endsWith('.js'));
+    for (let extension of extensionFiles) {
+        let pull = require(path.join(__dirname, `extensions/${extension}`));
+        extensions.set(pull.themeName, pull);
+    }
+})
 
 app.on('ready', function () {
-    // Create mainWindow
     mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
@@ -27,7 +32,7 @@ app.on('ready', function () {
     mainWindow.loadURL(url.format({
         pathname: path.join(__dirname, 'bin', 'mainWindow.html'),
         protocol: 'file:',
-        slashes: true,
+        slashes: true
     }));
 
     const mainMenu = Menu.buildFromTemplate(menuTemplate);
@@ -38,74 +43,40 @@ app.on('ready', function () {
     })
 });
 
-// catch
-ipcMain.on('createProjectName', function (e, data) {
-    let filePath = path.join(__dirname, 'data', 'themes', `${data.projectName}.json`);
+ipcMain.on('createProjectWindow', function () {
+    createProjectWindow();
+})
 
-    let newProjectData = {
-        "themeName": data.projectName,
-        "themeAuthor": data.projectAuthor,
-        "projectTemplate": data.projectTemplate,
-        "themeDescription": 'This is a test theme made with DBM Theme Creator.',
-        "backgroundType": 'color',
-        "backgroundIMGColor": '36393e',
-        "navTextColor": 'ccc',
-        "navBackgroundColor": '4676b9',
-        "sidePanelText": 'ccc',
-        "sidePanelBackground": '',
-        "actionSectionText": 'ccc',
-        "actionSectionBackground": '',
-        "actionPanelText": 'ccc',
-        "actionPaneBackground": ''
+ipcMain.on('createNewProject', function (e, data) {
+    newProject.close()
+    openProject(true, data)
+})
+
+
+ipcMain.on('openExistingProject', async function () {
+    let FolderPath = path.join(__dirname, 'data', 'themes');
+
+    let options = {
+        title: "DBM Theme Creator",
+        defaultPath: FolderPath,
+        buttonLabel: "Open Project",
+        filters: [{
+            name: 'json',
+            extensions: ['json'],
+        }]
     }
 
-    let newProjectDataFinal = JSON.stringify(newProjectData)
-    fs.writeFileSync(filePath, newProjectDataFinal, 'utf-8');
-    newProject.close()
-    loadProject()
+    let file = await dialog.showOpenDialog(newProject, options);
+    
+    if (file.canceled) return;
+    openProject(false, file)
 })
 
-ipcMain.on('createProjectWindow', function () {
-    createProject();
+ipcMain.on('openDisplayWindow', function () {
+    openDisplayWindow()
 })
 
-async function loadProject() {
-    mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'bin', 'projectWindow.html'),
-        protocol: 'file:',
-        slashes: true,
-    }));
 
-    const mainMenu = Menu.buildFromTemplate(menuTemplate);
-    Menu.setApplicationMenu(mainMenu);
-
-    mainWindow.on('closed', function () {
-        app.quit()
-    });
-}
-
-async function createProject() {
-    newProject = new BrowserWindow({
-        width: 550,
-        height: 300,
-        title: 'Create Project',
-        webPreferences: {
-            nodeIntegration: true
-        }
-    });
-
-    newProject.loadURL(url.format({
-        pathname: path.join(__dirname, 'bin', 'newProject.html'),
-        protocol: 'file:',
-        slashes: true
-    }));
-
-    newProject.on('close', function () {
-        newProject = null;
-    })
-
-    newProject.setMenuBarVisibility(false);
-}
 
 // Menu
 const menuTemplate = [{
@@ -113,13 +84,13 @@ const menuTemplate = [{
         submenu: [{
                 label: 'Create Project',
                 click() {
-                    createProject()
+                    createProjectWindow()
                 }
             },
             {
                 label: 'Open Project',
                 click() {
-
+                    openProjectDialog()
                 }
             },
             {
@@ -154,7 +125,7 @@ const menuTemplate = [{
         submenu: [{
             label: 'View Project',
             click() {
-
+                openDisplayWindow()
             }
         }, {
             label: 'Export Project',
@@ -176,11 +147,6 @@ const menuTemplate = [{
 
             }
         }]
-    }, {
-        label: 'Extensions',
-        submenu: [
-
-        ]
     },
     {
         label: 'Developer Tools',
@@ -192,3 +158,111 @@ const menuTemplate = [{
         }]
     }
 ]
+
+async function openProjectDialog() {
+    let FolderPath = path.join(__dirname, 'data', 'themes');
+    let options = {
+        title: "DBM Theme Creator",
+        defaultPath: FolderPath,
+        buttonLabel: "Open Project",
+        filters: [{
+            name: 'json',
+            extensions: ['json'],
+        }]
+    }
+
+    let file = await dialog.showOpenDialog(newProject, options);
+    if (file.canceled) return;
+    openProject(false, file)
+}
+
+async function openProject(isNewProject, file) {
+    if (isNewProject) {
+        let themeExtension = extensions.get(file.projectTemplate)
+        let themeConfig = themeExtension.config()
+        themeConfig.projectTemplate = file.projectTemplate;
+        let newProjectDataFinal = JSON.stringify(themeConfig);
+        let filePath = path.join(__dirname, 'data', 'themes', `${file.projectName}.json`);
+        fs.writeFileSync(filePath, newProjectDataFinal, 'utf-8');
+        ejs.data('themeExtension', themeExtension);
+        
+        mainWindow.loadURL(url.format({
+            pathname: path.join(__dirname, 'bin', 'projectWindow.ejs'),
+            protocol: 'file:',
+            slashes: true
+        }));
+
+        ipcMain.on('loadProject', (event, arg) => {
+            const projectData = newProjectDataFinal
+            event.reply('loadProjectReply', projectData)
+        })
+    } else {
+        const theme = require(file.filePaths[0])
+        let themeExtension = extensions.get(theme.projectTemplate)
+
+        ejs.data('themeExtension', themeExtension)
+
+        mainWindow.loadURL(url.format({
+            pathname: path.join(__dirname, 'bin', 'projectWindow.ejs'),
+            protocol: 'file:',
+            slashes: true
+        }));
+    
+        ipcMain.on('loadProject', (event, arg) => {
+            const projectData = require(file.filePaths[0])
+            event.reply('loadProjectReply', projectData)
+        })
+    }
+}
+
+
+async function openDisplayWindow() {
+    displayWindow = new BrowserWindow({
+        width: 1000,
+        height: 690,
+        minWidth: 1000,
+        minHeight: 690,
+        webPreferences: {
+            nodeIntegration: true
+        }
+    });
+
+    displayWindow.setMenuBarVisibility(false);
+
+    displayWindow.loadURL(url.format({
+        pathname: path.join(__dirname, 'data', "dbmFiles", "html", 'index.html'),
+        protocol: 'file:',
+        slashes: true
+    }));
+}
+
+
+
+async function createProjectWindow() {
+    newProject = new BrowserWindow({
+        width: 500,
+        height: 530,
+        minWidth: 500,
+        minHeight: 530,
+        maxHeight: 530,
+        maxWidth: 500,
+        title: 'Create Project',
+        webPreferences: {
+            nodeIntegration: true
+        }
+    });
+
+    ejs.data('extensions', extensions)
+
+    newProject.loadURL(url.format({
+        pathname: path.join(__dirname, 'bin', 'newProject.ejs'),
+        protocol: 'file:',
+        slashes: true
+    }));
+
+    newProject.on('close', function () {
+        newProject = null;
+    })
+
+    newProject.setMenuBarVisibility(false);
+}

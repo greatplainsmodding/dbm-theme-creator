@@ -142,30 +142,7 @@ div.myactions button.active {
 	background-color: #4676b9;
 }
 
-div.emyactions {
-	overflow: auto;
-	overflow-x: hidden;
-	border: 1px solid #ccc;
-	background-color: #53585f;
-}
 
-div.emyactions button {
-	overflow: hidden;
-	width: 100%;
-	height: 20px;
-	text-align: left;
-	color: #e3e5e8;
-	background-color: #53585f;
-	float: left;
-	border: none;
-	outline: none;
-	cursor: pointer;
-	transition: 0.2s;
-}
-
-div.emyactions button:hover {
-	background-color: #777e88;
-}
 
 div.emyactions button.active {
 	background-color: #4676b9;

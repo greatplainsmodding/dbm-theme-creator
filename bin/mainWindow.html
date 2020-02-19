@@ -3,32 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../bin/style/css/main.css">
     <title>DBM Theme Creator</title>
 </head>
 
 <body>
-    <center>
-        <b>
-            <p style="font-size: 40px; font-weight: 500;">DBM Theme Creator</p>
-        </b>
-        <div style="height: 100px;"></div>
+    <center style="margin-top: 10%;">
+        <h1 class="jumbotron-heading">DBM Theme Creator</h1>
+        <p class="lead ">Build your own custom theme!</p>
         <form>
-            <button id="openProject" value="openProject" onclick="">Open Project</button>
-            <button id="newProject" onclick="createProject()" value="newProject" type="submit">New Project</button>
+            <button class="btn btn-primary my-2" onclick="openExistingProject()">Open Project</button>
+            <button class="btn btn-primary my-2" onclick="createProject()" value="newProject" type="submit">New Project</button>
         </form>
     </center>
-    <script>
-        const electron = require('electron');
-        const {
-            ipcRenderer
-        } = electron;
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src=" https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"> </script> 
 
-        const form = document.querySelector('#newProject');
-        form.addEventListener('submit', createProject)
+
+<script>
+        const electron = require('electron');
+        const { ipcRenderer } = electron;
 
         function createProject() {
-            const data = 'ya!'
             ipcRenderer.send('createProjectWindow');
+        }
+
+        function openExistingProject() {
+            ipcRenderer.send('openExistingProject');
         }
     </script>
 </body>

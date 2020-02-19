@@ -1,0 +1,9 @@
+body { margin: 0; padding: 0; background-color: #2C2F33; color: white; font-size: medium; }
+.newProjectBody { background-color: #2C2F33; padding: 10px; }
+.newProjectBody input { background-color: #53585f; color: white; border-color: #53585f; }
+.newProjectBody select { background-color: #53585f; color: white; border-color: #53585f; }
+.newProjectBody option { background-color: #53585f; color: white; border-color: #53585f; }
+.newProjectBody textarea { background-color: #53585f; color: white; border-color: #53585f; }
+.projectWindow { padding: 10px; }
+.projectWindow input { background-color: #53585f; color: white; }
+.themeSettings input { color: white; }
