@@ -8,7 +8,6 @@ const { app, BrowserWindow, Menu, ipcMain, dialog } = electron;
 
 let mainWindow;
 let newProject;
-let displayWindow;
 
 let extensions = new Map()
 
@@ -22,15 +21,17 @@ fs.readdirSync(path.join(__dirname, "extensions")).forEach(dir => {
 
 app.on('ready', function () {
     mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 1000,
+        height: 690,
+        minWidth: 1000,
+        minHeight: 690,
         webPreferences: {
             nodeIntegration: true
         }
     });
 
     mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'bin', 'mainWindow.html'),
+        pathname: path.join(__dirname, 'bin', 'views', 'mainWindow.html'),
         protocol: 'file:',
         slashes: true
     }));
@@ -114,7 +115,7 @@ const menuTemplate = [{
         }, {
             label: 'Minimize To Tray',
             click() {
-
+            
             }
         }, {
             label: 'Close',
@@ -126,11 +127,6 @@ const menuTemplate = [{
     {
         label: 'Project',
         submenu: [{
-            label: 'View Project',
-            click() {
-                openDisplayWindow()
-            }
-        }, {
             label: 'Export Project',
             click() {
 
@@ -190,7 +186,7 @@ async function openProject(isNewProject, file) {
         ejs.data('themeExtension', themeExtension);
         
         mainWindow.loadURL(url.format({
-            pathname: path.join(__dirname, 'bin', 'projectWindow.ejs'),
+            pathname: path.join(__dirname, 'data', "dbmFiles", "html", 'index.html'),
             protocol: 'file:',
             slashes: true
         }));
@@ -205,8 +201,10 @@ async function openProject(isNewProject, file) {
 
         ejs.data('themeExtension', themeExtension)
 
+        //displayWindow.setMenuBarVisibility(false);
+    
         mainWindow.loadURL(url.format({
-            pathname: path.join(__dirname, 'bin', 'projectWindow.ejs'),
+            pathname: path.join(__dirname, 'data', "dbmFiles", "html", 'index.html'),
             protocol: 'file:',
             slashes: true
         }));
@@ -217,28 +215,6 @@ async function openProject(isNewProject, file) {
         })
     }
 }
-
-
-async function openDisplayWindow() {
-    displayWindow = new BrowserWindow({
-        width: 1000,
-        height: 690,
-        minWidth: 1000,
-        minHeight: 690,
-        webPreferences: {
-            nodeIntegration: true
-        }
-    });
-
-    //displayWindow.setMenuBarVisibility(false);
-
-    displayWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'data', "dbmFiles", "html", 'index.html'),
-        protocol: 'file:',
-        slashes: true
-    }));
-}
-
 
 
 async function createProjectWindow() {
@@ -258,7 +234,7 @@ async function createProjectWindow() {
     ejs.data('extensions', extensions)
 
     newProject.loadURL(url.format({
-        pathname: path.join(__dirname, 'bin', 'newProject.ejs'),
+        pathname: path.join(__dirname, 'bin', 'views', 'newProject.ejs'),
         protocol: 'file:',
         slashes: true
     }));
