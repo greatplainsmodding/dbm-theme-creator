@@ -82,6 +82,9 @@ ipcMain.on('saveProject', function (e, data) {
     console.log(data)
 })
 
+ipcMain.on('exportProject', function(e, data) {
+    exportProject(data)
+})
 
 // Menu
 const menuTemplate = [{
@@ -158,6 +161,10 @@ const menuTemplate = [{
         }]
     }
 ]
+
+async function exportProject(data) {
+
+}
 
 async function openProjectDialog() {
     let FolderPath = path.join(__dirname, 'data', 'themes');
