@@ -48,13 +48,13 @@ module.exports = {
                 </div>
                 <div class="form-group col-md-6">
                     <label for="">Background</label><br>
-                    <input class="form-control" type="text" placeholder="IMG link or img color">
+                    <input class="form-control" type="text" name="test" placeholder="IMG link or img color">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label>Navigation</label>
-                    <input class="form-control" placeholder="Text Color" value="${data.navTextColor}">
+                    <input class="form-control" name="test1" placeholder="Text Color" value="${data.navTextColor}">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="">Side Panel</label>

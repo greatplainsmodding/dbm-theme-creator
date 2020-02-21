@@ -76,6 +76,9 @@ ipcMain.on('openDisplayWindow', function () {
     openDisplayWindow()
 })
 
+ipcMain.on('saveProject', function (e, data) {
+    console.log(data)
+})
 
 
 // Menu
