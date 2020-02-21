@@ -28,7 +28,9 @@
 	<div id="id_pages" style="padding: 12px 20px; width: 100%; height: 100%;">
 		<div " style=" display: block;" class="page">
 			<div class="action-holder">
-				<button onclick="$('#myModal').modal({ centered: true }).modal('show');" class="tiny ui labeled icon button" style="width: 200px;"><i class="plus icon"></i><span>Create New Command</span></button>
+				<button onclick="$('#myModal').modal({ centered: true }).modal('show');"
+					class="tiny ui labeled icon button" style="width: 200px;"><i class="plus icon"></i><span>Create New
+						Command</span></button>
 				<br><br>
 				<div class="myactions" style="width: 200px; height: 480px;">
 				</div>
@@ -37,7 +39,8 @@
 				<br>
 				<div>
 					<div style="float: left; width: 55%;">
-						<span id="comLabel" onclick="$('#myModal').modal({ centered: true }).modal('show');">Command Name:</span><br>
+						<span id="comLabel" onclick="$('#myModal').modal({ centered: true }).modal('show');">Command
+							Name:</span><br>
 						<input id="name" style="width: 100%; height: 38px;" type="text">
 					</div>
 					<div style="float: right; width: 40%;">
@@ -366,32 +369,32 @@
 			<link rel="stylesheet" type="text/css" id="maintheme" href="../css/main.css">
 		</div>
 	</div>
-		<div id="myModal" style="width: 50%" class="ui mini test modal">
-			<div class="header">
-				Editing - Create New Command
-			</div>
-			<div class="content" style="color: black;">
-				<div class="ui small icon input">
-					<p>Text Color</p><br>
-					<input type="text" placeholder="#777e88">
-				</div><br><br>
-				<div class="ui small icon input">
-					<p>Background Color</p><br>
-					<input type="text" placeholder="white">
-				</div>
-			</div>
-			<div class="actions">
-				<div class="ui negative button">
-					Cancel
-				</div>
-				<div class="ui positive right labeled icon button">
-					Save Changes
-					<i class="checkmark icon"></i>
-				</div>
+	<div id="myModal" class="ui mini modal" style="width: 50%; color: white; background-color: #2C2F33; margin-left: -25%">
+		<div class="header" style="color: white; background-color: #2C2F33;">
+			Editing - Create New Command
+		</div>
+		<div class="content" style="color: white; background-color: #2C2F33; width: 100%;">
+			<p style="margin-bottom: 5px;">Text Color:</p>
+			<div class="ui small icon input"
+				style="color: white; background-color: #2C2F33; margin-top: -5px;  width: 100%;">
+				<input type="text" placeholder="#777e88" style="background-color: #53585f; color: white; width: 100%;">
+			</div><br><br>
+			<p style="margin-bottom: 5px;">Background Color:</p>
+			<div class="ui small icon input"
+				style="color: white; background-color: #2C2F33; margin-top: -5px;  width: 100%;">
+				<input type="text" placeholder="white" style="background-color: #53585f; color: white; width: 100%;">
 			</div>
 		</div>
-
-
+		<div class="actions" style="color: white; background-color: #2C2F33;">
+			<div class="ui negative button">
+				Cancel
+			</div>
+			<div class="ui positive right labeled icon button">
+				Save Changes
+				<i class="checkmark icon"></i>
+			</div>
+		</div>
+	</div>
 </body>
 
 </html>
