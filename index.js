@@ -8,7 +8,6 @@ const { app, BrowserWindow, Menu, ipcMain, dialog } = electron;
 
 let mainWindow;
 let newProject;
-let aboutWindow;
 
 let extensions = new Map()
 
@@ -140,11 +139,6 @@ const menuTemplate = [{
     {
         label: 'Other',
         submenu: [{
-            label: 'About',
-            click() {
-                aboutWindowLoad()
-            }
-        }, {
             label: 'Documentation',
             click() {
 
@@ -183,29 +177,6 @@ async function openProjectDialog() {
     openProject(false, file)
 }
 
-async function aboutWindowLoad() {
-    aboutWindow = new BrowserWindow({
-        width: 400,
-        height: 400,
-        minWidth: 400,
-        minHeight: 400,
-        maxHeight: 400,
-        maxWidth: 400,
-        title: 'About',
-        webPreferences: {
-            nodeIntegration: true
-        }
-    });
-
-    aboutWindow.setMenuBarVisibility(false);
-
-    aboutWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'bin', 'views', 'about.ejs'),
-        protocol: 'file:',
-        slashes: true
-    }))
-
-}
 
 async function openProject(isNewProject, file) {
     if (isNewProject) {
