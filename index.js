@@ -230,7 +230,7 @@ async function openDisplayWindow() {
         }
     });
 
-    displayWindow.setMenuBarVisibility(false);
+    //displayWindow.setMenuBarVisibility(false);
 
     displayWindow.loadURL(url.format({
         pathname: path.join(__dirname, 'data', "dbmFiles", "html", 'index.html'),
