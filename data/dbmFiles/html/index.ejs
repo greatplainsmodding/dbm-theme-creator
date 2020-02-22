@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Discord Bot Maker - Theme Creator</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="../css/semantic/dist/semantic.js"></script>
+</head>
+<% console.log(themeExtension) %>
+<%- themeExtension.html() %>
+<form id="themeSettings">
+	<% themeExtension.fields.forEach(field => { %>
+	<div id="<%= field.id %>" class="ui mini modal"
+		style="width: 50%; color: white; background-color: #2C2F33; margin-left: -25%">
+		<div class="header" style="color: white; background-color: #2C2F33;">
+			Editing - <%= field.name %>
+		</div>
+		<div class="content" style="color: white; background-color: #2C2F33; width: 100%;">
+			<% if (field.types.textColor) { %>
+			<p style="margin-bottom: 5px;">Text Color:</p>
+			<div class="ui small icon input"
+				style="color: white; background-color: #2C2F33; margin-top: -5px;  width: 100%;">
+				<input id="<%= field.id %>textColor" type="text" value="#777e88"
+					style="background-color: #53585f; color: white; width: 100%;">
+			</div><br><br>
+			<% } %>
+			<% if (field.types.backgroundColor) { %>
+			<p style="margin-bottom: 5px;">Background Color:</p>
+			<div class="ui small icon input"
+				style="color: white; background-color: #2C2F33; margin-top: -5px;  width: 100%;">
+				<input id="<%= field.id %>backgroundColor" type="text" value="white"
+					style="background-color: #53585f; color: white; width: 100%;">
+			</div>
+			<% } %>
+		</div>
+		<div class="actions" style="color: white; background-color: #2C2F33;">
+			<button class="ui negative button">Cancel</button>
+			<button onclick="saveSettings()" class="ui positive right labeled icon button">Save Changes
+				<i class="checkmark icon"></i></button>
+		</div>
+	</div>
+	<% }) %>
+</form>
+
+<script>
+	const { ipcRenderer } = require('electron');
+	function saveSettings() {
+		let settings = {};
+		<% themeExtension.fields.forEach(field => { %>
+		settings.<%= field.id %>textColor = document.querySelector('#<%= field.id %>textColor').value;
+		settings.<%= field.id %>backgroundColor = document.querySelector('#<%= field.id %>backgroundColor').value;
+		<% }) %>
+
+		var $themeSettings = $('#themeSettings');
+	console.log($themeSettings.serializeArray())
+
+		ipcRenderer.send('saveProject', settings)
+	}
+</script>
+
+</html>

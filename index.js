@@ -8,6 +8,8 @@ const { app, BrowserWindow, Menu, ipcMain, dialog } = electron;
 
 let mainWindow;
 let newProject;
+let currentProject;
+let currentTheme;
 
 let extensions = new Map()
 
@@ -78,7 +80,14 @@ ipcMain.on('openDisplayWindow', function () {
 })
 
 ipcMain.on('saveProject', function (e, data) {
+    //let theme = require(currentProject)
+    //theme.projectSettings = data;
+    //let dataFinal = JSON.stringify(theme)
+    //fs.writeFileSync(currentProject, dataFinal, 'utf-8');
+
+    //let themeExtension = extensions.get(currentTheme);
     console.log(data)
+
 })
 
 ipcMain.on('exportProject', function(e, data) {
@@ -181,15 +190,24 @@ async function openProjectDialog() {
 async function openProject(isNewProject, file) {
     if (isNewProject) {
         let themeExtension = extensions.get(file.projectTemplate)
-        let themeConfig = themeExtension.config()
-        themeConfig.projectTemplate = file.projectTemplate;
+        let themeConfig = {
+            "themeName": file.projectName,
+            "themeAuthor": file.projectAuthor,
+            "projectTemplate": file.projectTemplate,
+            "themeDescription": file.themeDescription,
+        };
+
         let newProjectDataFinal = JSON.stringify(themeConfig);
         let filePath = path.join(__dirname, 'data', 'themes', `${file.projectName}.json`);
         fs.writeFileSync(filePath, newProjectDataFinal, 'utf-8');
         ejs.data('themeExtension', themeExtension);
-        
+        ejs.data('themeConfig', themeConfig)
+
+        currentProject = filePath
+        currentTheme = file.projectTemplate;
+
         mainWindow.loadURL(url.format({
-            pathname: path.join(__dirname, 'data', "dbmFiles", "html", 'index.html'),
+            pathname: path.join(__dirname, 'data', "dbmFiles", "html", 'index.ejs'),
             protocol: 'file:',
             slashes: true
         }));
@@ -202,16 +220,18 @@ async function openProject(isNewProject, file) {
         const theme = require(file.filePaths[0])
         let themeExtension = extensions.get(theme.projectTemplate)
 
-        ejs.data('themeExtension', themeExtension)
+        ejs.data('themeExtension', themeExtension);
+        ejs.data('themeConfig', theme)
 
-        //displayWindow.setMenuBarVisibility(false);
-    
         mainWindow.loadURL(url.format({
-            pathname: path.join(__dirname, 'data', "dbmFiles", "html", 'index.html'),
+            pathname: path.join(__dirname, 'data', "dbmFiles", "html", 'index.ejs'),
             protocol: 'file:',
             slashes: true
         }));
-    
+
+        currentProject = file.filePaths[0]
+        currentTheme = theme.projectTemplate;
+
         ipcMain.on('loadProject', (event, arg) => {
             const projectData = require(file.filePaths[0])
             event.reply('loadProjectReply', projectData)

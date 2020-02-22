@@ -1,0 +1,61 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="../bin/style/css/main.css">
+    <title>Document</title>
+</head>
+
+<body class="projectWindow">
+    <center>
+        <h1 class="jumbotron-heading">DBM Theme Creator</h1>
+    </center>
+
+    <div style="padding-top: 20px;">
+        <form class="themeSettings" id="themeSettings" autocomplete="off">
+            <%- themeExtension.html(themeExtension.config()) %>
+            <center>
+                <button type="submit">Save Settings</button>
+            </center>
+        </form>
+    </div>
+    <script async>
+        const {
+            ipcRenderer
+        } = require('electron')
+        var $themeSettings = $('#themeSettings')
+
+        $themeSettings.submit(function (e) {
+            e.preventDefault()
+            let = data = $themeSettings.serializeArray().reduce(function (obj, item) {
+                obj[item.name] = item.value;
+                return obj;
+            }, {});
+            console.log(data)
+            ipcRenderer.send('saveProject', data)
+        })
+
+        ipcRenderer.on('loadProjectReply', (event, data) => {
+            //console.log(data)
+        });
+
+
+
+        ipcRenderer.send('loadProject')
+    </script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>

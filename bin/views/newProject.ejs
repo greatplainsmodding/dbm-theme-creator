@@ -26,7 +26,7 @@
                 <% }) %>
             </select><br>
             <label>Theme Description</label><br>
-            <textarea class="form-control" style="width: 100%;"
+            <textarea id="themeDescription" class="form-control" style="width: 100%;"
                 rows="3">This theme was made with DBM Theme Creator.</textarea><br>
             <button class="btn btn-primary center" type="submit" required>Create Project</button>
         </form>
@@ -44,11 +44,13 @@
             const projectName = document.querySelector('#projectName').value;
             const projectTemplate = document.querySelector('#projectTemplate').value;
             const projectAuthor = document.querySelector('#projectAuthor').value;
+            const themeDescription = document.querySelector('#themeDescription').value;
 
             let data = {
                 'projectName': projectName,
                 'projectTemplate': projectTemplate,
-                'projectAuthor': projectAuthor
+                'projectAuthor': projectAuthor,
+                'themeDescription': themeDescription
             }
 
             ipcRenderer.send('createNewProject', data);
