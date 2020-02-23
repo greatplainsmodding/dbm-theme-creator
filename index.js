@@ -80,14 +80,11 @@ ipcMain.on('openDisplayWindow', function () {
 })
 
 ipcMain.on('saveProject', function (e, data) {
-    //let theme = require(currentProject)
-    //theme.projectSettings = data;
-    //let dataFinal = JSON.stringify(theme)
-    //fs.writeFileSync(currentProject, dataFinal, 'utf-8');
-
-    //let themeExtension = extensions.get(currentTheme);
-    console.log(data)
-
+    let themeSettings = require(currentProject)
+    themeSettings.projectData = data;
+    console.log(themeSettings)
+    let dataFinal = JSON.stringify(themeSettings)
+    fs.writeFileSync(currentProject, dataFinal, 'utf-8');
 })
 
 ipcMain.on('exportProject', function(e, data) {
@@ -189,7 +186,8 @@ async function openProjectDialog() {
 
 async function openProject(isNewProject, file) {
     if (isNewProject) {
-        let themeExtension = extensions.get(file.projectTemplate)
+        let themeExtension = extensions.get(file.projectTemplate);
+
         let themeConfig = {
             "themeName": file.projectName,
             "themeAuthor": file.projectAuthor,
@@ -197,12 +195,14 @@ async function openProject(isNewProject, file) {
             "themeDescription": file.themeDescription,
         };
 
+        themeConfig.projectData = themeExtension.data
+
         let newProjectDataFinal = JSON.stringify(themeConfig);
         let filePath = path.join(__dirname, 'data', 'themes', `${file.projectName}.json`);
         fs.writeFileSync(filePath, newProjectDataFinal, 'utf-8');
         ejs.data('themeExtension', themeExtension);
         ejs.data('themeConfig', themeConfig)
-
+        
         currentProject = filePath
         currentTheme = file.projectTemplate;
 

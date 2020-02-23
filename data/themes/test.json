@@ -1,1 +1,12 @@
-{"themeName":"test","themeAuthor":"test","projectTemplate":"Default","themeDescription":"This theme was made with DBM Theme Creator.","projectSettings":{"createNewCommandtextColor":"#777e88","createNewCommandbackgroundColor":"white","createNewCommand2textColor":"#777e88","createNewCommand2backgroundColor":"white"}}
+{
+    "themeName": "test",
+    "themeAuthor": "test",
+    "projectTemplate": "Default",
+    "themeDescription": "This theme was made with DBM Theme Creator.",
+    "projectData": {
+        "createNewCommandTextColor": "#e3e5e8",
+        "createNewCommandBackgroundColor": "#ccc",
+        "navTabsTextColor": "red",
+        "navTabsBackgroundColor": "#4676b9"
+    }
+}

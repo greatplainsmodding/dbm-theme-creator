@@ -25,52 +25,105 @@ module.exports = {
     themeDescription: 'This is the base plate from DBM.',
     //----------------------------------------------------------------------------------
 
+    data: {
+        "createNewCommandTextColor": "#e3e5e8",
+        "createNewCommandBackgroundColor": "#ccc",
+        "navTabsTextColor": "#e3e5e8",
+        "navTabsBackgroundColor": "#4676b9"
+    },
 
-    //----------------------------------------------------------------------------------
-    // This is where you can place your custom html.
-    // Note if you didn't set customHTML to true this wont load.
-    // Also note this will be inside a form tags so all you need to do is add input tags
     fields: [{
-            name: 'Create New Command',
-            id: 'createNewCommand',
-            types: {
-                textColor: true,
-                backgroundColor: true
-            },
-            data: {
-                textColor: 'white',
-                backgroundColor: 'orange'  
-            }
+            "id": "createNewCommand",
+            "customFields": false
         },
         {
-            name: 'Create New Command 2',
-            id: 'createNewCommand2',
-            types: {
-                textColor: true,
-                backgroundColor: true
-            },
-            data: {
-                textColor: 'white',
-                backgroundColor: 'orange'  
-            }
+            "id": "navTabs",
+            customFields: true
+        },
+        {
+            "id": "pageText",
+            customFields: true
         }
     ],
+
+    customFields: function (data) {
+        console.log(data)
+        return `
+		document.getElementById("navTabsTextColorOption").style.color = ${data.projectData.navTabsTextColor}
+		document.getElementById("navTabsBackgroundColorOption").style.background = ${data.projectData.navTabsBackgroundColor}
+        `
+    },
+
+    //----------------------------------------------------------------------------------
+    modals: function (data) {
+        return `
+            <!--Create New Command-->
+            <div id="createNewCommand" class="ui mini modal" style="width: 50%; color: white; background-color: #2C2F33; margin-left: -25%">
+                <div class="header" style="color: white; background-color: #2C2F33;">
+                    Editing - Create New Command
+                </div>
+                <div class="content" style="color: white; background-color: #2C2F33; width: 100%;">
+                    <p style="margin-bottom: 5px;">Text Color:</p>
+                    <div class="ui small icon input" style="color: white; background-color: #2C2F33; margin-top: -5px; width: 100%;">
+                        <input id="createNewCommandTextColor" type="text" value="${data.projectData.createNewCommandTextColor || ''}"
+                            style="background-color: #53585f; color: white; width: 100%;">
+                </div><br><br>
+                    <p style="margin-bottom: 5px;">Background Color:</p>
+                    <div class="ui small icon input"
+                        style="color: white; background-color: #2C2F33; margin-top: -5px; width: 100%;">
+                        <input id="createNewCommandBackgroundColor" type="text" value="${data.projectData.createNewCommandBackgroundColor || ''}"
+                            style="background-color: #53585f; color: white; width: 100%;">
+                    </div>
+                </div>
+                <div class="actions" style="color: white; background-color: #2C2F33;">
+                    <button class="ui negative button">Cancel</button>
+                    <button onclick="saveSettings()" class="ui positive right labeled icon button">Save Changes
+                        <i class="checkmark icon"></i></button>
+                </div>
+            </div>
+
+            <!--Navigation Tabs-->
+            <div id="navTabs" class="ui mini modal" style="width: 50%; color: white; background-color: #2C2F33; margin-left: -25%">
+                <div class="header" style="color: white; background-color: #2C2F33;">
+                    Editing - Navigation Tabs
+                </div>
+                <div class="content" style="color: white; background-color: #2C2F33; width: 100%;">
+                    <p style="margin-bottom: 5px;">Text Color:</p>
+                    <div class="ui small icon input" style="color: white; background-color: #2C2F33; margin-top: -5px; width: 100%;">
+                        <input id="navTabsTextColor" type="text" value="${data.projectData.navTabsTextColor || ''}"
+                            style="background-color: #53585f; color: white; width: 100%;">
+                </div><br><br>
+                    <p style="margin-bottom: 5px;">Background Color:</p>
+                    <div class="ui small icon input"
+                        style="color: white; background-color: #2C2F33; margin-top: -5px; width: 100%;">
+                        <input id="navTabsBackgroundColor" type="text" value="${data.projectData.navTabsBackgroundColor || ''}"
+                            style="background-color: #53585f; color: white; width: 100%;">
+                    </div>
+                </div>
+                <div class="actions" style="color: white; background-color: #2C2F33;">
+                    <button class="ui negative button">Cancel</button>
+                    <button onclick="saveSettings()" class="ui positive right labeled icon button">Save Changes
+                        <i class="checkmark icon"></i></button>
+                </div>
+            </div>
+        `
+    },
     //----------------------------------------------------------------------------------
 
 
     //----------------------------------------------------------------------------------
     // Here you can place your custom css for the theme extension.
-    html: function () {
+    html: function (data) {
         return `
         <body style="width: 100%; height: 100%;">
         <link rel="stylesheet" type="text/css" href="../css/main.css">
         <link rel="stylesheet" type="text/css" href="../css/semantic/dist/semantic.css">
         <div style="height: 10px;"></div>
-        <div style="text-align: center; padding-top: 10px;" id="id_tabs_main">
-            <div class="ui blue buttons" style="width: 95%;" id="id_tabs">
-                <button id="a_tab_com" class="ui button active" style="width: 25%;">Commands</button>
-                <button id="a_tab_eve" class="ui button" style="width: 25%;">Events</button>
-                <button id="a_tab_sets" class="ui button" style="width: 25%;">Settings</button>
+        <div style="text-align: center; padding-top: 10px;">
+            <div class="ui blue buttons" onclick="$('#navTabs').modal('show');" type="button" style="width: 95%;">
+                <button data-tooltip="Click to edit." data-position="bottom left" class="ui button active" style="width: 25%;" id="navTabsOption">Commands</button>
+                <button data-tooltip="Click to edit." data-position="bottom left" class="ui button" style="width: 25%;" id="navTabsOption">Events</button>
+                <button data-tooltip="Click to edit." data-position="bottom left" class="ui button" style="width: 25%;" id="navTabsOption">Settings</button>
             </div>
         </div>
     
@@ -78,8 +131,7 @@ module.exports = {
         <div id="id_pages" style="padding: 12px 20px; width: 100%; height: 100%;">
             <div " style=" display: block;" class="page">
                 <div class="action-holder">
-                    <button onclick="$('#createNewCommand').modal('show');" type="button" data-tooltip="Click to edit."
-                        data-position="top left" class="tiny ui labeled icon button" style="width: 200px;"><i
+                    <button id="createNewCommandOption" onclick="$('#createNewCommand').modal('show');" type="button" data-tooltip="Click to edit." data-position="top left" class="tiny ui labeled icon button" style="width: 200px;"><i
                             class="plus icon"></i><span>Create New
                             Command</span></button>
                     <br><br>
@@ -429,7 +481,7 @@ module.exports = {
     </body>
         `
     }
-    //----------------------------------------------------------------------------------
 
+    //----------------------------------------------------------------------------------
 
 }
