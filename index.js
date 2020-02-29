@@ -4,12 +4,18 @@ const url = require('url');
 const path = require('path');
 const fs = require('fs');
 
-const { app, BrowserWindow, Menu, ipcMain, dialog } = electron;
+const {
+    app,
+    BrowserWindow,
+    Menu,
+    ipcMain,
+    dialog
+} = electron;
 
 let mainWindow;
 let newProject;
 let currentProject;
-let currentTheme;
+let menuTemplate;
 
 let extensions = new Map()
 
@@ -70,13 +76,9 @@ ipcMain.on('openExistingProject', async function () {
     }
 
     let file = await dialog.showOpenDialog(newProject, options);
-    
+
     if (file.canceled) return;
     openProject(false, file)
-})
-
-ipcMain.on('openDisplayWindow', function () {
-    openDisplayWindow()
 })
 
 ipcMain.on('saveProject', function (e, data) {
@@ -87,12 +89,12 @@ ipcMain.on('saveProject', function (e, data) {
     fs.writeFileSync(currentProject, dataFinal, 'utf-8');
 })
 
-ipcMain.on('exportProject', function(e, data) {
+ipcMain.on('exportProject', function (e, data) {
     exportProject(data)
 })
 
 // Menu
-const menuTemplate = [{
+menuTemplate = [{
         label: 'File',
         submenu: [{
                 label: 'Create Project',
@@ -124,7 +126,7 @@ const menuTemplate = [{
         }, {
             label: 'Minimize To Tray',
             click() {
-            
+
             }
         }, {
             label: 'Close',
@@ -143,15 +145,6 @@ const menuTemplate = [{
         }]
     },
     {
-        label: 'Other',
-        submenu: [{
-            label: 'Documentation',
-            click() {
-
-            }
-        }]
-    },
-    {
         label: 'Developer Tools',
         submenu: [{
             label: 'Insect',
@@ -163,7 +156,7 @@ const menuTemplate = [{
 ]
 
 async function exportProject(data) {
-
+    console.log(data)
 }
 
 async function openProjectDialog() {
@@ -185,6 +178,21 @@ async function openProjectDialog() {
 
 
 async function openProject(isNewProject, file) {
+    let menuButton = {
+        label: 'Project',
+        submenu: [{
+            label: 'Export Project',
+            click() {
+                exportProject('test')
+            }
+        }]
+    }
+
+    menuTemplate.push(menuButton)
+
+    const mainMenu = Menu.buildFromTemplate(menuTemplate);
+    Menu.setApplicationMenu(mainMenu);
+
     if (isNewProject) {
         let themeExtension = extensions.get(file.projectTemplate);
 
@@ -202,7 +210,7 @@ async function openProject(isNewProject, file) {
         fs.writeFileSync(filePath, newProjectDataFinal, 'utf-8');
         ejs.data('themeExtension', themeExtension);
         ejs.data('themeConfig', themeConfig)
-        
+
         currentProject = filePath
         currentTheme = file.projectTemplate;
 
