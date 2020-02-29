@@ -157,7 +157,7 @@ menuTemplate = [{
 
 async function exportProject(data) {
     let FolderPath = path.join(__dirname, 'exports', 'themes');
-
+    console.log(FolderPath)
     let options = {
         title: "DBM Theme Creator",
         defaultPath: FolderPath,
@@ -168,10 +168,8 @@ async function exportProject(data) {
         }]
     }
 
-    let file = await dialog.showSaveDialog(newProject, options);
-
+    let file = await dialog.showSaveDialog(mainWindow, options);
     if (file.canceled) return;
-
     let themeSettings = require(currentProject);
     let css = `
     p#settings-description {
@@ -518,8 +516,13 @@ async function exportProject(data) {
       opacity: 1;
     }
     `
-    console.log(file.filePath)
     fs.writeFileSync(file.filePath, css, 'utf-8');
+
+    mainWindow.loadURL(url.format({
+        pathname: path.join(__dirname, 'bin', "views", 'project.html'),
+        protocol: 'file:',
+        slashes: true
+    }));
 
 }
 
