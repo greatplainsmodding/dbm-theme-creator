@@ -10,6 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "ejs-electron": "^2.0.3",
-    "electron": "^8.0.0"
+    "electron": "^8.5.2"
   }
 }
